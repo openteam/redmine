@@ -18,7 +18,7 @@ namespace :deploy do
 
   desc "HASK copy right unicorn.rb file"
   task :copy_unicorn_config do
-    run "mv #{deploy_to}/current/config/unicorn.rb #{deploy_to}/current/config/unicorn.rb.example"
+    #run "mv #{deploy_to}/current/config/unicorn.rb #{deploy_to}/current/config/unicorn.rb.example"
     run "ln -s #{deploy_to}/shared/config/unicorn.rb #{deploy_to}/current/config/unicorn.rb"
   end
 

@@ -14,6 +14,7 @@ group :production do
   gem 'rmagick', '>= 2.0.0'
   gem 'ruby-openid', "~> 2.1.4"
   gem 'rack-openid'
+  gem 'net-ldap'
 end
 
 group :development do
