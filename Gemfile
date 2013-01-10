@@ -12,6 +12,8 @@ group :production do
   gem 'unicorn'
   gem 'pg', '>= 0.11.0'
   gem 'rmagick', '>= 2.0.0'
+  gem 'ruby-openid', "~> 2.1.4"
+  gem 'rack-openid'
 end
 
 group :development do
