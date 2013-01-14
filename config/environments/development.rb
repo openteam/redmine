@@ -16,4 +16,7 @@ RedmineApp::Application.configure do
   config.action_mailer.raise_delivery_errors = false
 
   config.active_support.deprecation = :log
+
+  config.logger = Logger.new('log/dev.log', 7, 1048576)
+  config.logger.level = Logger::DEBUG
 end

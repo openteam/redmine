@@ -79,7 +79,14 @@ class MailHandler < ActionMailer::Base
         end
       end
     end
-    @user = User.find_by_mail(sender_email) if sender_email.present?
+
+    @user = User.find_or_initialize_by_mail(sender_email).tap do |user|
+      if user.new_record?
+        user.login = sender_email
+        user.save(:validate => false)
+      end
+    end if sender_email.present?
+
     if @user && !@user.active?
       if logger && logger.info
         logger.info  "MailHandler: ignoring email from non-active user [#{@user.login}]"
