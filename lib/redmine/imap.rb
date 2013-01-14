@@ -37,7 +37,7 @@ module Redmine
             if imap_options[:move_on_success]
               imap.copy(message_id, imap_options[:move_on_success])
             end
-            imap.store(message_id, "+FLAGS", [:Seen, :Deleted])
+            imap.store(message_id, "+FLAGS", [:Seen])
           else
             logger.debug "Message #{message_id} can not be processed" if logger && logger.debug?
             imap.store(message_id, "+FLAGS", [:Seen])
