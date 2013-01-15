@@ -20,6 +20,7 @@ namespace :deploy do
   task :copy_unicorn_config do
     #run "mv #{deploy_to}/current/config/unicorn.rb #{deploy_to}/current/config/unicorn.rb.example"
     run "ln -s #{deploy_to}/shared/config/unicorn.rb #{deploy_to}/current/config/unicorn.rb"
+    run "ln -s #{deploy_to}/shared/config/secret_token.rb #{deploy_to}/current/config/initializers/secret_token.rb"
   end
 
   desc "Reload Unicorn"
