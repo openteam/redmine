@@ -218,6 +218,7 @@ en:
 
   field_name: Name
   field_description: Description
+  field_email: Project email
   field_summary: Summary
   field_is_required: Required
   field_firstname: First name

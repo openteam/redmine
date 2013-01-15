@@ -6,6 +6,7 @@ gem "i18n", "~> 0.6.0"
 gem "coderay", "~> 1.0.6"
 gem "fastercsv", "~> 1.5.0", :platforms => [:mri_18, :mingw_18, :jruby]
 gem "builder", "3.0.0"
+gem "validates_email_format_of"
 
 group :production do
   gem 'airbrake'
@@ -39,10 +40,10 @@ end
 #end
 
 # Optional gem for OpenID authentication
-#group :openid do
-#  gem "ruby-openid", "~> 2.1.4", :require => "openid"
-#  gem "rack-openid"
-#end
+group :openid do
+  gem "ruby-openid", "~> 2.1.4", :require => "openid"
+  gem "rack-openid"
+end
 
 
 # Optional gem for exporting the gantt to a PNG file, not supported with jruby

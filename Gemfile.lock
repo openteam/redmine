@@ -126,6 +126,7 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
+    validates_email_format_of (1.5.3)
     yard (0.8.3)
 
 PLATFORMS
@@ -149,4 +150,5 @@ DEPENDENCIES
   rvm-capistrano
   shoulda (~> 2.11)
   unicorn
+  validates_email_format_of
   yard

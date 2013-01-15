@@ -1,3 +1,4 @@
+# encoding: utf-8
 # Redmine - project management software
 # Copyright (C) 2006-2012  Jean-Philippe Lang
 #
@@ -80,6 +81,7 @@ class Project < ActiveRecord::Base
   validates_format_of :identifier, :with => /\A(?!\d+$)[a-z0-9\-_]*\z/, :if => Proc.new { |p| p.identifier_changed? }
   # reserved words
   validates_exclusion_of :identifier, :in => %w( new )
+  validates :email, :email_format => { :message => 'не правильный формат'}, :allow_nil => true, :allow_blank => true
 
   after_save :update_position_under_parent, :if => Proc.new {|project| project.name_changed?}
   before_destroy :delete_all_members
@@ -91,7 +93,7 @@ class Project < ActiveRecord::Base
   scope :status, lambda {|arg| where(arg.blank? ? nil : {:status => arg.to_i}) }
   scope :all_public, lambda { where(:is_public => true) }
   scope :visible, lambda {|*args| where(Project.visible_condition(args.shift || User.current, *args)) }
-  scope :allowed_to, lambda {|*args| 
+  scope :allowed_to, lambda {|*args|
     user = User.current
     permission = nil
     if args.first.is_a?(Symbol)
@@ -140,8 +142,8 @@ class Project < ActiveRecord::Base
   # returns latest created projects
   # non public projects will be returned only if user is a member of those
   def self.latest(user=nil, count=5)
-    visible(user).limit(count).order("created_on DESC").all	
-  end	
+    visible(user).limit(count).order("created_on DESC").all
+  end
 
   # Returns true if the project is visible to +user+ or to the current user.
   def visible?(user=User.current)
@@ -640,6 +642,7 @@ class Project < ActiveRecord::Base
 
   safe_attributes 'name',
     'description',
+    'email',
     'homepage',
     'is_public',
     'identifier',
