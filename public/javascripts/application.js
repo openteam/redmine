@@ -585,16 +585,24 @@ function blockEventPropagation(event) {
   event.preventDefault();
 }
 
+
+Date.prototype.toLocaleFormat = function(format) {
+  var f = {y : this.getYear() + 1900,m : this.getMonth() + 1,d : this.getDate(),H : this.getHours(),M : this.getMinutes(),S : this.getSeconds()}
+  for(k in f)
+    format = format.replace('%' + k, f[k] < 10 ? "0" + f[k] : f[k]);
+  return format;
+};
+
 function quickCloseIssue() {
-  if (!$('input.button_quick_close_issue').length) {
+  if (!$('button.button_quick_close_issue').length) {
     return true;
   }
-  $('input.button_quick_close_issue').click(function(event) {
+  $('button.button_quick_close_issue').click(function(event) {
     var button = $(this);
     $('#issue_status_id option:contains("Закрыта")').attr('selected', 'selected');
     $('#issue_assigned_to_id option:contains("<< мне >>")').attr('selected', 'selected');
     var now = new Date();
-    $('#issue_due_date').val(now.toLocaleFormat("%Y-%m-%d"));
+    $('#issue_due_date').val(now.toLocaleFormat("%y-%m-%d"));
     $('#issue_done_ratio option:contains("100 %")').attr('selected', 'selected');
     if ($('#time_entry_hours').val() == '') {
       $('#time_entry_hours').focus();
