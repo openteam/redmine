@@ -23,9 +23,9 @@
           <p><%= custom_field_tag_with_label :time_entry, value %></p>
         <% end %>
         <% end %>
+        <p><%= submit_tag l(:button_quick_close_issue), :class => :button_quick_close_issue %></p>
     </fieldset>
     <% end %>
-
     <fieldset><legend><%= l(:field_notes) %></legend>
     <%= f.text_area :notes, :cols => 60, :rows => 10, :class => 'wiki-edit', :no_label => true %>
     <%= wikitoolbar_for 'issue_notes' %>

@@ -551,12 +551,12 @@ function warnLeavingUnsaved(message) {
 function setupAjaxIndicator() {
 
   $('#ajax-indicator').bind('ajaxSend', function(event, xhr, settings) {
-  
+
     if ($('.ajax-loading').length == 0 && settings.contentType != 'application/octet-stream') {
       $('#ajax-indicator').show();
     }
   });
-  
+
   $('#ajax-indicator').bind('ajaxStop', function() {
     $('#ajax-indicator').hide();
   });
@@ -585,6 +585,35 @@ function blockEventPropagation(event) {
   event.preventDefault();
 }
 
+function quickCloseIssue() {
+  if (!$('input.button_quick_close_issue').length) {
+    return true;
+  }
+  $('input.button_quick_close_issue').click(function(event) {
+    var button = $(this);
+    $('#issue_status_id option:contains("Закрыта")').attr('selected', 'selected');
+    $('#issue_assigned_to_id option:contains("<< мне >>")').attr('selected', 'selected');
+    var now = new Date();
+    $('#issue_due_date').val(now.toLocaleFormat("%Y-%m-%d"));
+    $('#issue_done_ratio option:contains("100 %")').attr('selected', 'selected');
+    if ($('#time_entry_hours').val() == '') {
+      $('#time_entry_hours').focus();
+      alert("Нельзя быстро закрыть задачу!\nНе указано затраченное время!");
+      return false;
+    }
+    if ($('#time_entry_activity_id option:selected').val() == '') {
+      $('#time_entry_activity_id').focus();
+      alert("Нельзя быстро закрыть задачу!\nНе указана деятельность!");
+      return false;
+    }
+    if (($('#time_entry_hours').val() != '') && ($('#time_entry_activity_id option:selected').val() != '')) {
+      button.closest('form').submit();
+    }
+    return false;
+  });
+}
+
 $(document).ready(setupAjaxIndicator);
 $(document).ready(hideOnLoad);
 $(document).ready(addFormObserversForDoubleSubmit);
+$(document).ready(quickCloseIssue);
