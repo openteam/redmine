@@ -84,11 +84,11 @@ class MailHandler < ActionMailer::Base
     @user = User.find_or_initialize_by_mail(sender_email).tap do |user|
       if user.new_record?
         group = Group.find_or_create_by_lastname('Отправители')
-        group.users << user
         user.login = sender_email
         user.language = Setting.default_language
         user.mail_notification = 'only_owner'
         user.save(:validate => false)
+        group.users << user
       end
     end if sender_email.present?
 
