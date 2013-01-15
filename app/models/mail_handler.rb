@@ -87,6 +87,7 @@ class MailHandler < ActionMailer::Base
         user.login = sender_email
         user.language = Setting.default_language
         user.mail_notification = 'only_owner'
+        user.status = 1
         user.save(:validate => false)
         group.users << user
       end

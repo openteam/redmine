@@ -2,7 +2,6 @@ require "bundler/capistrano"
 require "rvm/capistrano"
 
 load "config/deploy/settings"
-#load "config/deploy/assets"
 
 namespace :deploy do
   desc "Copy config files"
@@ -18,15 +17,20 @@ namespace :deploy do
 
   desc "HASK copy right unicorn.rb file"
   task :copy_unicorn_config do
-    #run "mv #{deploy_to}/current/config/unicorn.rb #{deploy_to}/current/config/unicorn.rb.example"
     run "ln -s #{deploy_to}/shared/config/unicorn.rb #{deploy_to}/current/config/unicorn.rb"
     run "ln -s #{deploy_to}/shared/config/secret_token.rb #{deploy_to}/current/config/initializers/secret_token.rb"
+    run "ln -s #{deploy_to}/shared/config/gmail.yml #{deploy_to}/current/config/gmail.yml"
   end
 
   desc "Reload Unicorn"
   task :reload_servers do
     sudo "/etc/init.d/nginx reload"
     sudo "/etc/init.d/#{unicorn_instance_name} restart"
+  end
+
+  desc "Update crontab tasks"
+  task :crontab do
+    run "cd #{deploy_to}/current && exec bundle exec whenever --update-crontab --load-file #{deploy_to}/current/config/schedule.rb"
   end
 
   desc "Airbrake notify"
@@ -41,6 +45,7 @@ after "deploy", "deploy:migrate"
 after "deploy", "deploy:copy_unicorn_config"
 after "deploy", "deploy:reload_servers"
 after "deploy:restart", "deploy:cleanup"
+after "deploy", "deploy:crontab"
 #after "deploy", "deploy:airbrake"
 
 # deploy:rollback
