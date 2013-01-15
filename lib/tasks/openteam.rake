@@ -23,7 +23,7 @@ namespace :openteam do
 
     issue_options = {
         :status => 1,
-        :tracker => 'Support',
+        :tracker => 'Поддержка',
         :category => 1,
         :priority => 1
     }
