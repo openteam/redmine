@@ -37,6 +37,11 @@ namespace :deploy do
   task :airbrake do
     run "cd #{deploy_to}/current && RAILS_ENV=production TO=production bin/rake airbrake:deploy"
   end
+
+  desc "Make symlink for uploads folder"
+  task :files_symlink do
+    run "ln -s #{deploy_to}/shared/files/ #{deploy_to}/current/files"
+  end
 end
 
 # deploy
