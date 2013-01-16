@@ -33,6 +33,7 @@ namespace :openteam do
     }
 
     projects.each do |project|
+      next if project.email.blank?
       project_options = issue_options.merge(:project => project.identifier)
       Redmine::IMAP.check(
         imap_options.merge(:folder => project.identifier),
