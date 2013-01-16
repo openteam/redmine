@@ -1,3 +1,4 @@
+# encoding: utf-8
 # Redmine - project management software
 # Copyright (C) 2006-2012  Jean-Philippe Lang
 #
@@ -17,13 +18,9 @@
 
 class JournalObserver < ActiveRecord::Observer
   def after_create(journal)
-    if journal.notify? &&
-        (Setting.notified_events.include?('issue_updated') ||
-          (Setting.notified_events.include?('issue_note_added') && journal.notes.present?) ||
-          (Setting.notified_events.include?('issue_status_updated') && journal.new_status.present?) ||
-          (Setting.notified_events.include?('issue_priority_updated') && journal.new_value_for('priority_id').present?)
-        )
-      Mailer.issue_edit(journal).deliver
+    issue = journal.journalized.reload
+    if issue.closed? && issue.author && issue.author.groups.map(&:name).include?('Отправители')
+      Mailer.issue_closed_message_for_author(issue, journal).deliver
     end
   end
 end

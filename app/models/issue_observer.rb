@@ -18,7 +18,7 @@
 
 class IssueObserver < ActiveRecord::Observer
   def after_create(issue)
-    if issue.author? && issue.author.groups.map(&:name).include?('Отправители')
+    if issue.author && issue.author.groups.map(&:name).include?('Отправители')
       Mailer.issue_add_message_for_author(issue).deliver
       Mailer.issue_add_message_for_users(issue).deliver
     end

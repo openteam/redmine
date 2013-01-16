@@ -28,53 +28,30 @@ class Mailer < ActionMailer::Base
   end
 
   def issue_add_message_for_author(issue)
-    issue_add(issue, issue.author)
+    create_msg(issue, issue.author.mail)
   end
 
   def issue_add_message_for_users(issue)
     recipients = issue.recipients
-    issue_add(issue, recipients)
+    create_msg(issue, recipients)
   end
 
-  def issue_add(issue, recipients)
+  def issue_closed_message_for_author(issue, journal)
+    create_msg(issue, issue.author.mail, journal)
+  end
+
+  def create_msg(issue, recipients, journal = nil)
     redmine_headers 'Project' => issue.project.identifier,
                     'Issue-Id' => issue.id,
                     'Issue-Author' => issue.author.login
     redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
     message_id issue
-    @author = issue.author
     @issue = issue
+    @journal = journal
     @issue_url = url_for(:controller => 'issues', :action => 'show', :id => issue)
     mail :to => recipients,
          :reply_to => issue.project.email,
          :subject => "#{issue.project.name} - #{issue.subject}"
-  end
-
-  # Builds a Mail::Message object used to email recipients of the edited issue.
-  #
-  # Example:
-  #   issue_edit(journal) => Mail::Message object
-  #   Mailer.issue_edit(journal).deliver => sends an email to issue recipients
-  def issue_edit(journal, recipients)
-    issue = journal.journalized.reload
-    redmine_headers 'Project' => issue.project.identifier,
-                    'Issue-Id' => issue.id,
-                    'Issue-Author' => issue.author.login
-    redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
-    message_id journal
-    references issue
-    @author = journal.user
-    # Watchers in cc
-    cc = journal.watcher_recipients - recipients
-    s = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] "
-    s << "(#{issue.status.name}) " if journal.new_value_for('status_id')
-    s << issue.subject
-    @issue = issue
-    @journal = journal
-    @issue_url = url_for(:controller => 'issues', :action => 'show', :id => issue, :anchor => "change-#{journal.id}")
-    mail :to => recipients,
-      :cc => cc,
-      :subject => s
   end
 
   # Builds a Mail::Message object used to email all active administrators of an account activation request.
@@ -217,7 +194,7 @@ class Mailer < ActionMailer::Base
     if m = method.to_s.match(%r{^deliver_(.+)$})
       ActiveSupport::Deprecation.warn "Mailer.deliver_#{m[1]}(*args) is deprecated. Use Mailer.#{m[1]}(*args).deliver instead."
       send(m[1], *args).deliver
-    elsif %w(account_information attachments_added document_added lost_password message_posted news_added news_comment_added register reminder wiki_content_added wiki_content_updated).include?(method.to_s)
+    elsif %w(account_information attachments_added document_added issue_add issue_edit lost_password message_posted news_added news_comment_added register reminder wiki_content_added wiki_content_updated).include?(method.to_s)
       ActiveSupport::Deprecation.warn "Mailer.#{method}(*args) is deprecated by OpenTeam."
       return Object.new.tap do |object|
         object.instance_eval do |obj|
