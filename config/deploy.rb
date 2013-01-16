@@ -51,6 +51,7 @@ after "deploy", "deploy:copy_unicorn_config"
 after "deploy", "deploy:reload_servers"
 after "deploy:restart", "deploy:cleanup"
 after "deploy", "deploy:crontab"
+after "deploy", "deploy:files_symlink"
 #after "deploy", "deploy:airbrake"
 
 # deploy:rollback
