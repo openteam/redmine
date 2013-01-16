@@ -7,9 +7,10 @@ gem "i18n", "~> 0.6.0"
 gem "jquery-rails", "~> 2.0.2"
 gem "validates_email_format_of"
 gem 'configliere'
+gem 'progress_bar'
+gem 'russian'
 gem 'rails', '3.2.11'
 gem 'whenever', :require => false
-gem 'progress_bar'
 
 group :production do
   gem 'airbrake'

@@ -504,6 +504,11 @@ ru:
   label_feeds_access_key_created_on: "Ключ доступа RSS создан %{value} назад"
   label_f_hour: "%{value} час"
   label_f_hour_plural: "%{value} часов"
+  label_f_hour_pluralize:
+    one: "%{count} час"
+    few: "%{count} часа"
+    many: "%{count} часов"
+    other: "%{count} часа"
   label_file_added: Добавлен файл
   label_file_plural: Файлы
   label_filter_add: Добавить фильтр

@@ -118,6 +118,8 @@ GEM
       rubinius-core-api
     rubinius-core-api (0.0.1)
     ruby-openid (2.1.8)
+    russian (0.6.0)
+      i18n (>= 0.5.0)
     rvm-capistrano (1.2.7)
       capistrano (>= 2.0.0)
     shoulda (2.11.3)
@@ -162,6 +164,7 @@ DEPENDENCIES
   rdoc (>= 2.4.2)
   rmagick (>= 2.0.0)
   ruby-openid (~> 2.1.4)
+  russian
   rvm-capistrano
   shoulda (~> 2.11)
   unicorn
