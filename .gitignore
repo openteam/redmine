@@ -37,3 +37,4 @@
 /.bundle
 /Gemfile.local
 
+.DS_Store

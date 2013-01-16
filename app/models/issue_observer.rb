@@ -1,3 +1,4 @@
+# encoding: utf-8
 # Redmine - project management software
 # Copyright (C) 2006-2012  Jean-Philippe Lang
 #
@@ -17,6 +18,9 @@
 
 class IssueObserver < ActiveRecord::Observer
   def after_create(issue)
-    Mailer.issue_add(issue).deliver if Setting.notified_events.include?('issue_added')
+    if issue.author? && issue.author.groups.map(&:name).include?('Отправители')
+      Mailer.issue_add_message_for_author(issue).deliver
+      Mailer.issue_add_message_for_users(issue).deliver
+    end
   end
 end
