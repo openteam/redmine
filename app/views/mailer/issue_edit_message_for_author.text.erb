@@ -1,0 +1,5 @@
+Ваше сообщение(<%= @issue.subject %>) в проект <%= @issue.project.name %> обработано.
+
+<% if @journal.notes? %>
+  <%= @journal.notes %>
+<% end %>
