@@ -5,8 +5,6 @@ Rake::TaskManager.record_task_metadata = true
 namespace :openteam do
   desc "Получение почты из Gmail и создание новых задач"
   task :import_emails => :environment do
-    puts task.comment
-
     user = Settings['gmail']['user']
     pass = Settings['gmail']['password']
 

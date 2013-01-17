@@ -17,6 +17,6 @@ RedmineApp::Application.configure do
 
   config.active_support.deprecation = :log
 
-  config.logger = Logger.new('log/dev.log', 7, 1048576)
-  config.logger.level = Logger::DEBUG
+  config.logger = Rails.logger
+  config.log_level = :debug
 end

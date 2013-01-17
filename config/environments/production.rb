@@ -15,6 +15,8 @@ RedmineApp::Application.configure do
   #
   # config.logger = Logger.new(config.log_path, 7, 1048576)
   # config.logger.level = Logger::INFO
+  config.logger = Rails.logger
+  config.log_level = :info
 
   # Full error reports are disabled and caching is turned on
   config.action_controller.perform_caching = true
