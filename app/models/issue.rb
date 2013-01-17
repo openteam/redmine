@@ -764,7 +764,7 @@ class Issue < ActiveRecord::Base
     notified += project.notified_users
     notified.uniq!
     # Remove users that can not view the issue
-    notified.reject! {|user| !visible?(user) && (user != author)}
+    notified.reject! {|user| !visible?(user)}
     notified
   end
 

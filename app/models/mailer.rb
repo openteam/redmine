@@ -32,7 +32,7 @@ class Mailer < ActionMailer::Base
   end
 
   def issue_add_message_for_users(issue)
-    recipients = issue.recipients
+    recipients = issue.recipients - [issue.author.mail]
     create_msg(issue, recipients)
   end
 
@@ -50,6 +50,7 @@ class Mailer < ActionMailer::Base
     @journal = journal
     @issue_url = url_for(:controller => 'issues', :action => 'show', :id => issue)
     mail :to => recipients,
+         :from => issue.project.email,
          :reply_to => issue.project.email,
          :subject => "#{issue.project.name} - #{issue.subject}"
   end
@@ -141,7 +142,7 @@ class Mailer < ActionMailer::Base
     headers.merge! 'X-Mailer' => 'Redmine',
             'X-Redmine-Host' => Setting.host_name,
             'X-Redmine-Site' => Setting.app_title,
-            'From' => Setting.mail_from,
+            #'From' => Setting.mail_from,
             'X-Auto-Response-Suppress' => 'OOF',
             'Auto-Submitted' => 'auto-generated',
             'List-Id' => "<#{Setting.mail_from.to_s.gsub('@', '.')}>"
