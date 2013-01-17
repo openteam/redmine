@@ -586,14 +586,52 @@ function blockEventPropagation(event) {
 }
 
 function parseDate(string) {
-  var date = string.split(' ')[0],
-      day = date.split('.')[0],
-      month = date.split('.')[1] - 1,
-      year = date.split('.')[2];
-  var time = string.split(' ')[1],
-      hour = time.split(':')[0],
+  var day    = string.split(' ')[0],
+      month  = string.split(' ')[1],
+      month_number = 0,
+      year   = string.split(' ')[2],
+      time   = string.split(' ')[3],
+      hour   = time.split(':')[0],
       minute = time.split(':')[1];
-  return new Date(year, month, day, hour, minute, 0);
+  switch (month) {
+    case 'янв.':
+      month_number = 0;
+      break;
+    case 'февр.':
+      month_number = 1;
+      break;
+    case 'марта:
+      month_number = 2;
+      break;
+    case 'апр.':
+      month_number = 3;
+      break;
+    case 'мая':
+      month_number = 4;
+      break;
+    case 'июня':
+      month_number = 5;
+      break;
+    case 'июля':
+      month_number = 6;
+      break;
+    case 'авг.':
+      month_number = 7;
+      break;
+    case 'сент.':
+      month_number = 8;
+      break;
+    case 'окт.':
+      month_number = 9;
+      break;
+    case 'нояб.':
+      month_number = 10;
+      break;
+    case 'дек.':
+      month_number = 11;
+      break;
+  }
+  return new Date(year, month_number, day, hour, minute, 0);
 }
 
 function calculateTimeEntryHours() {
