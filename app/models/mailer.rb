@@ -50,7 +50,7 @@ class Mailer < ActionMailer::Base
     @journal = journal
     @issue_url = url_for(:controller => 'issues', :action => 'show', :id => issue)
     mail :to => recipients,
-         :reply_to => issue.project.email,
+         :from => issue.project.email,
          :subject => "#{issue.project.name} - #{issue.subject}"
   end
 
@@ -143,7 +143,6 @@ class Mailer < ActionMailer::Base
             'X-Redmine-Site' => Setting.app_title,
             'X-Auto-Response-Suppress' => 'OOF',
             'Auto-Submitted' => 'auto-generated',
-            'From' => Setting.mail_from,
             'List-Id' => "<#{Setting.mail_from.to_s.gsub('@', '.')}>"
 
     # Removes the author from the recipients and cc
