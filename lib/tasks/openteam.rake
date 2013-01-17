@@ -40,6 +40,7 @@ namespace :openteam do
         options.merge(:issue => project_options)
       )
       pb.increment!
+      Rails.logger.info("Imprted issue to project #{project.identifier} at #{Time.zone.now}")
     end
 
   end
