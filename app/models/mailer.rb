@@ -50,7 +50,7 @@ class Mailer < ActionMailer::Base
     @journal = journal
     @issue_url = url_for(:controller => 'issues', :action => 'show', :id => issue)
     mail :to => recipients,
-         :from => issue.project.email,
+         :reply_to => issue.project.email,
          :subject => "#{issue.project.name} - #{issue.subject}"
   end
 
@@ -141,6 +141,7 @@ class Mailer < ActionMailer::Base
     headers.merge! 'X-Mailer' => 'Redmine',
             'X-Redmine-Host' => Setting.host_name,
             'X-Redmine-Site' => Setting.app_title,
+            'From' => Setting.mail_from,
             'X-Auto-Response-Suppress' => 'OOF',
             'Auto-Submitted' => 'auto-generated',
             'List-Id' => "<#{Setting.mail_from.to_s.gsub('@', '.')}>"
