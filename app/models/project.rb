@@ -81,7 +81,8 @@ class Project < ActiveRecord::Base
   validates_format_of :identifier, :with => /\A(?!\d+$)[a-z0-9\-_]*\z/, :if => Proc.new { |p| p.identifier_changed? }
   # reserved words
   validates_exclusion_of :identifier, :in => %w( new )
-  validates :email, :email_format => { :message => 'не правильный формат'}, :allow_nil => true, :allow_blank => true
+  validates_presence_of :email
+  validates :email, :email_format => { :message => 'не правильный формат'}
 
   after_save :update_position_under_parent, :if => Proc.new {|project| project.name_changed?}
   before_destroy :delete_all_members
