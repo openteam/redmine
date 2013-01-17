@@ -600,7 +600,7 @@ function parseDate(string) {
     case 'февр.':
       month_number = 1;
       break;
-    case 'марта:
+    case 'марта':
       month_number = 2;
       break;
     case 'апр.':
