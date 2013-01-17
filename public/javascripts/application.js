@@ -585,6 +585,37 @@ function blockEventPropagation(event) {
   event.preventDefault();
 }
 
+function parseDate(string) {
+  var date = string.split(' ')[0],
+      day = date.split('.')[0],
+      month = date.split('.')[1] - 1,
+      year = date.split('.')[2];
+  var time = string.split(' ')[1],
+      hour = time.split(':')[0],
+      minute = time.split(':')[1];
+  return new Date(year, month, day, hour, minute, 0);
+}
+
+function calculateTimeEntryHours() {
+  if (!$('#time_entry_hours_calculate').length) {
+    return true;
+  }
+  $('#time_entry_hours_calculate').click(function(event) {
+    var link = $(this);
+    var author_block = $('#content .details p.author');
+    var start_on;
+    if ($('span.updated_on a', author_block).length) {
+      start_on = $('span.updated_on a', author_block).attr('title');
+    } else {
+      start_on = $('span.created_on a:last', author_block).attr('title');
+    }
+    var start_date = parseDate(start_on);
+    var now_date = new Date();
+    var difference = (now_date - start_date) / 1000 / 60 / 60;
+    link.prev('#time_entry_hours').val(difference.toFixed(1));
+    return false;
+  });
+}
 
 Date.prototype.toLocaleFormat = function(format) {
   var f = {y : this.getYear() + 1900,m : this.getMonth() + 1,d : this.getDate(),H : this.getHours(),M : this.getMinutes(),S : this.getSeconds()}
@@ -624,4 +655,5 @@ function quickCloseIssue() {
 $(document).ready(setupAjaxIndicator);
 $(document).ready(hideOnLoad);
 $(document).ready(addFormObserversForDoubleSubmit);
+$(document).ready(calculateTimeEntryHours);
 $(document).ready(quickCloseIssue);

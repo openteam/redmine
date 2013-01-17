@@ -13,7 +13,10 @@
         <fieldset class="tabular"><legend><%= l(:button_log_time) %></legend>
         <%= labelled_fields_for :time_entry, @time_entry do |time_entry| %>
         <div class="splitcontentleft">
-        <p><%= time_entry.text_field :hours, :size => 6, :label => :label_spent_time %> <%= l(:field_hours) %></p>
+          <p>
+            <%= time_entry.text_field :hours, :size => 6, :label => :label_spent_time %> <%= l(:field_hours) %>
+            <a href='#' id='time_entry_hours_calculate'>подсчитать</a>
+          </p>
         </div>
         <div class="splitcontentright">
         <p><%= time_entry.select :activity_id, activity_collection_for_select_options %></p>
