@@ -1,3 +1,4 @@
+# encoding: utf-8
 # Redmine - project management software
 # Copyright (C) 2006-2012  Jean-Philippe Lang
 #
@@ -765,7 +766,11 @@ class Issue < ActiveRecord::Base
     notified.uniq!
     # Remove users that can not view the issue
     notified.reject! {|user| !visible?(user)}
-    notified
+    notified & managers
+  end
+
+  def managers
+    project.members.joins(:roles).where('roles.name' => "Менеджер").map(&:user)
   end
 
   # Returns the email addresses that should be notified
