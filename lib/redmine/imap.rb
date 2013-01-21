@@ -28,6 +28,8 @@ module Redmine
 
         imap = Net::IMAP.new(host, port, ssl)
         imap.login(imap_options[:username], imap_options[:password]) unless imap_options[:username].nil?
+        folders = imap.list("","*").map(&:name)
+        return true unless folders.include?(folder)
         imap.select(folder)
         imap.search(['NOT', 'SEEN']).each do |message_id|
           msg = imap.fetch(message_id,'RFC822')[0].attr['RFC822']
