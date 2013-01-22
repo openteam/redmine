@@ -147,7 +147,7 @@ class MailHandler < ActionMailer::Base
         # ignoring it
       end
     elsif m = subject.match(ISSUE_REPLY_SUBJECT_RE)
-      receive_issue_reply(m[1].to_i)
+      dispatch_to_default
     elsif m = subject.match(MESSAGE_REPLY_SUBJECT_RE)
       receive_message_reply(m[1].to_i)
     else
