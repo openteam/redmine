@@ -138,21 +138,22 @@ class MailHandler < ActionMailer::Base
   def dispatch
     headers = [email.in_reply_to, email.references].flatten.compact
     subject = email.subject.to_s
-    if headers.detect {|h| h.to_s =~ MESSAGE_ID_RE}
-      klass, object_id = $1, $2.to_i
-      method_name = "receive_#{klass}_reply"
-      if self.class.private_instance_methods.collect(&:to_s).include?(method_name)
-        send method_name, object_id
-      else
-        # ignoring it
-      end
-    elsif m = subject.match(ISSUE_REPLY_SUBJECT_RE)
-      dispatch_to_default
-    elsif m = subject.match(MESSAGE_REPLY_SUBJECT_RE)
-      receive_message_reply(m[1].to_i)
-    else
-      dispatch_to_default
-    end
+    dispatch_to_default
+    #if headers.detect {|h| h.to_s =~ MESSAGE_ID_RE}
+      #klass, object_id = $1, $2.to_i
+      #method_name = "receive_#{klass}_reply"
+      #if self.class.private_instance_methods.collect(&:to_s).include?(method_name)
+        #send method_name, object_id
+      #else
+        ## ignoring it
+      #end
+    #elsif m = subject.match(ISSUE_REPLY_SUBJECT_RE)
+      #receive_message_reply(m[1].to_i)
+    #elsif m = subject.match(MESSAGE_REPLY_SUBJECT_RE)
+      #receive_message_reply(m[1].to_i)
+    #else
+      #dispatch_to_default
+    #end
   rescue ActiveRecord::RecordInvalid => e
     # TODO: send a email to the user
     logger.error e.message if logger
