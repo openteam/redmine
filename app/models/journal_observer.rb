@@ -19,8 +19,9 @@
 class JournalObserver < ActiveRecord::Observer
   def after_create(journal)
     issue = journal.journalized.reload
-    if issue.closed? && issue.author && issue.author.groups.map(&:name).include?('Отправители')
+    if !issue.sended && issue.closed? && issue.author && issue.author.groups.map(&:name).include?('Отправители')
       Mailer.issue_closed_message_for_author(issue, journal).deliver
+      issue.update_column(:sended => true)
     end
   end
 end
