@@ -41,7 +41,7 @@ class MailHandler < ActionMailer::Base
 
     @@handler_options[:no_permission_check] = (@@handler_options[:no_permission_check].to_s == '1' ? true : false)
 
-    email.force_encoding('ASCII-8BIT') if email.respond_to?(:force_encoding)
+    email.force_encoding('UTF-8') if email.respond_to?(:force_encoding)
     super(email)
   end
 
