@@ -11,6 +11,7 @@ gem 'progress_bar'
 gem 'russian'
 gem 'rails', '3.2.11'
 gem 'whenever', :require => false
+gem 'capistrano', '~>2.14.1'
 
 group :production do
   gem 'airbrake'
