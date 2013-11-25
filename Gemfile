@@ -6,12 +6,13 @@ gem "fastercsv", "~> 1.5.0", :platforms => [:mri_18, :mingw_18, :jruby]
 gem "i18n", "~> 0.6.0"
 gem "jquery-rails", "~> 2.0.2"
 gem "validates_email_format_of"
-gem 'configliere'
-gem 'progress_bar'
-gem 'russian'
-gem 'rails', '3.2.11'
-gem 'whenever', :require => false
 gem 'capistrano', '~>2.14.1'
+gem 'configliere'
+gem 'iconv', '~> 1.0.3'
+gem 'progress_bar'
+gem 'rails', '3.2.11'
+gem 'russian'
+gem 'whenever', :require => false
 
 group :production do
   gem 'airbrake'
